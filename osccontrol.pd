@@ -1,0 +1,36 @@
+#N canvas 95 180 715 664 12;
+#X obj 278 418 netsend -u -b;
+#X obj 216 302 list prepend send;
+#X obj 237 334 list trim;
+#X msg 323 325 connect localhost 33333;
+#X msg 364 282 disconnect;
+#X obj 277 263 r oscmsg;
+#X obj 93 17 hsl 128 15 0 1 0 0 empty empty test -2 -8 0 12 -262144
+-1 -1 5500 1;
+#X floatatom 73 40 5 0 0 0 - - -;
+#X obj 136 44 oscformat -f f test;
+#X obj 95 99 hsl 128 15 0 1 0 0 empty empty stuff -2 -8 0 12 -262144
+-1 -1 9000 1;
+#X floatatom 72 123 5 0 0 0 - - -;
+#X obj 132 124 oscformat -f f stuff;
+#X obj 87 182 hsl 128 15 0 1 0 0 empty empty hi -2 -8 0 12 -262144
+-1 -1 6200 1;
+#X floatatom 64 206 5 0 0 0 - - -;
+#X obj 125 207 oscformat -f f stuff;
+#X obj 136 69 s oscmsg;
+#X obj 132 149 s oscmsg;
+#X obj 125 232 s oscmsg;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 6 0 7 0;
+#X connect 6 0 8 0;
+#X connect 8 0 15 0;
+#X connect 9 0 10 0;
+#X connect 9 0 11 0;
+#X connect 11 0 16 0;
+#X connect 12 0 13 0;
+#X connect 12 0 14 0;
+#X connect 14 0 17 0;
