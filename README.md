@@ -9,3 +9,4 @@
 - run the `main.py` file (so `python main.py` or `python3 main.py` if python3 isn't symlinked to python)
 - the OSC server runs on `0.0.0.0` at port `3333` (ran into issues trying to receive messages from another computer using `127.0.0.1` for some reason)
 - incoming OSC messages are automatically cached and printed by the script every 0.25 seconds (so if incoming messages are being received, it'll get printed, this value is stored in `PRINT_DUR`)
+- `control + c` kills the server when in the same terminal pane as the script you executed the previous command (as usual). Sometimes I've been unable to kill the server using this method and had to do `ps aux | grep python` to find the PID to kill the server using `kill -9 (insert PID here)` but I haven't quite figured that out yet.

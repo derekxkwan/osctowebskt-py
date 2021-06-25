@@ -64,11 +64,11 @@ async def loop():
         await asyncio.sleep(PRINT_DUR)
 
 async def root_router(req):
-    return web.FileResponse('./public/index.html')
+    return web.FileResponse(index_path)
 
 async def web_server():
     app = web.Application()
-    app.add_routes([web.get('/ws', ws_handler), web.get('/', root_router), web.static('/', './public/')])
+    app.add_routes([web.get('/ws', ws_handler), web.get('/', root_router), web.static('/', public_path)])
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, webhost, webport)
