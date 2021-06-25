@@ -6,6 +6,10 @@ import os
 from signal import signal, SIGINT
 from sys import exit
 
+script_path = os.path.abspath(os.path.dirname(__file__))
+index_path = os.path.join(script_path, 'public', 'index.html')
+public_path = os.path.join(script_path, 'public')
+
 oscip = "0.0.0.0"
 oscp = 3333
 PRINT_DUR = 0.25
