@@ -6,12 +6,15 @@ import os
 from signal import signal, SIGINT
 from sys import exit
 
-oscip = "127.0.0.1"
-oscp = 33333
+oscip = "0.0.0.0"
+oscp = 3333
+PRINT_DUR = 0.25
+WS_DUR = 0
 webhost = os.getenv("HOST", "127.0.0.1")
 webport = int(os.getenv("PORT", 8080))
 ws = None
 to_send = []
+to_print = []
 running = True
 
 def sigint_handler(recv, frame):
@@ -21,6 +24,7 @@ def sigint_handler(recv, frame):
 def osc_to_ws(addr, *args):
     global ws
     global to_send
+    to_print.append(f"{addr}: {args}")
     if ws != None:
         #print(f"{addr}: {args}")
         retstr = addr
@@ -28,7 +32,7 @@ def osc_to_ws(addr, *args):
             retstr += f" {x}"
         to_send.append(retstr)
     else:
-        print("no ws connection")
+        to_print.append("no ws")
 
 dispatcher = Dispatcher()
 dispatcher.map("/*", osc_to_ws)
@@ -38,8 +42,11 @@ async def ws_handler(req):
     global ws
     ws = web.WebSocketResponse()
     await ws.prepare(req)
-    while True:
-        await asyncio.sleep(3600)
+    while running == True:
+        while len(to_send) > 0:
+            cur = to_send.pop()
+            await ws.send_str(cur)
+        await asyncio.sleep(WS_DUR)
     return ws
 
 async def loop():
@@ -47,14 +54,17 @@ async def loop():
     global to_send
     global running
     while running==True:
-        while len(to_send) > 0:
-            cur = to_send.pop()
-            await ws.send_str(cur)
-        await asyncio.sleep(0)
+        for x in to_print:
+            print(x)
+            to_print.remove(x)
+        await asyncio.sleep(PRINT_DUR)
+
+async def root_router(req):
+    return web.FileResponse('./public/index.html')
 
 async def web_server():
     app = web.Application()
-    app.add_routes([web.get('/ws', ws_handler), web.static('/', './public/')])
+    app.add_routes([web.get('/ws', ws_handler), web.get('/', root_router), web.static('/', './public/')])
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, webhost, webport)
