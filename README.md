@@ -8,3 +8,4 @@
 - Needs Python 3
 - run the `main.py` file (so `python main.py` or `python3 main.py` if python3 isn't symlinked to python)
 - the OSC server runs on `0.0.0.0` at port `3333` (ran into issues trying to receive messages from another computer using `127.0.0.1` for some reason)
+- incoming OSC messages are automatically cached and printed by the script every 0.25 seconds (so if incoming messages are being received, it'll get printed, this value is stored in `PRINT_DUR`)
