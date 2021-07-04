@@ -75,8 +75,8 @@ async def web_server():
     while True:
         await asyncio.sleep(3600)
 
-async def osc_server():
-    server = AsyncIOOSCUDPServer((oscip, oscp), dispatcher, asyncio.get_event_loop())
+async def osc_server(loop):
+    server = AsyncIOOSCUDPServer((oscip, oscp), dispatcher, loop)
     tport, protocol = await server.create_serve_endpoint()
     await send_loop()
     tport.close()
@@ -87,6 +87,6 @@ async def main():
         loop.add_signal_handler(
                 getattr(signal, signame),
                 functools.partial(hard_exit, signame, loop))
-    await asyncio.gather(osc_server(), web_server())
+    await asyncio.gather(osc_server(loop), web_server())
 
 asyncio.run(main())
