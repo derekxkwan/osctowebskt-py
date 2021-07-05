@@ -1,4 +1,5 @@
 let skt = new WebSocket("ws://127.0.0.1:8080/ws");
+let disp = document.getElementById("disp");
 
 function parseMsg(msg) {
     let ret = {};
@@ -12,11 +13,20 @@ function parseMsg(msg) {
     return ret;
 }
 
+function format_str(cur) {
+    let addr = cur["addr"];
+    let args = cur["args"];
+    return `Address: ${addr}, Args: ${args}`;
+}
+
 skt.addEventListener('open', (evt) => {console.log("ws open");});
 
 skt.addEventListener('message', (evt) => {
     let msg = evt.data;
     let p = parseMsg(msg);
-    console.log(p);
+    let cur = format_str(p);
+    let curtext = disp.innerHTML;
+    curtext += (cur + "<br>");
+    disp.innerHTML = curtext;
 });
 

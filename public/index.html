@@ -1,7 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <style>
+            div.scroll{
+                background-color: #aaeeee;
+                width: 90%;
+                height: 300px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align: left;
+                padding: 20px;
+            }
+        </style>
     </head>
     <body>
+        <div>
+            <button onclick="document.getElementById('disp').innerHTML = ''">clear messages</button>
+        </div>
+        <br>
+        <div class="scroll" id="disp"></div>
         <script src="/js/script.js"></script>
     </body>
 </html>
